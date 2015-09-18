@@ -47,14 +47,3 @@ EXPOSE 3000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-# Optionally the docker can be run as an application just setting the command
-#ENTRYPOINT ["/usr/local/bin/entrypoint.sh", "/opt/ensembl-rest/script/ensembl_rest_server.pl"]
-
-# Build the image
-# docker build -t helios/ensembl-docker .
-# Run the image as a container and because it does not store any data, remove it when exiting.
-# The container run as an application
-# docker run --rm -p 3000:3000 -ti helios/ensembl-docker /bin/bash
-
-# If you run the docker as an application you can use the command line of the selected app software as if would be in your local environment.
-# docker run --rm -p 3000:3000 -ti helios/ensembl-docker --help

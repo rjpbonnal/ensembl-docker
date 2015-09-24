@@ -7,7 +7,8 @@ DB_PASS=${DB_PASS:-}
 
 DB_REMOTE_ROOT_NAME=${DB_REMOTE_ROOT_NAME:-}
 DB_REMOTE_ROOT_PASS=${DB_REMOTE_ROOT_PASS:-}
-DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
+#DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
+DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"0.0.0.0"}
 
 create_data_dir() {
   mkdir -p ${MYSQL_DATA_DIR}
@@ -81,10 +82,12 @@ initialize_mysql_database() {
     echo "Creating debian-sys-maint user..."
     mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
 
-    if [ -n "${DB_REMOTE_ROOT_NAME}" -a -n "${DB_REMOTE_ROOT_HOST}" ]; then
+    #if [ -n "${DB_REMOTE_ROOT_NAME}" -a -n "${DB_REMOTE_ROOT_HOST}" ]; then
+    if [ -n "${DB_REMOTE_ROOT_NAME}" ]; then
       echo "Creating remote user \"${DB_REMOTE_ROOT_NAME}\" with root privileges..."
       mysql -uroot \
-      -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'${DB_REMOTE_ROOT_HOST}' IDENTIFIED BY '${DB_REMOTE_ROOT_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+      -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'%' IDENTIFIED BY '' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+      #-e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'${DB_REMOTE_ROOT_HOST}' IDENTIFIED BY '${DB_REMOTE_ROOT_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;"
     fi
 
     /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
@@ -149,7 +152,7 @@ if [[ -z ${1} ]]; then
   apply_configuration_fixes
   remove_debian_systen_maint_password
   initialize_mysql_database
-  create_users_and_databases
+#  create_users_and_databases
   listen_on_all_interfaces
   exec $(which mysqld_safe) $EXTRA_ARGS
 else

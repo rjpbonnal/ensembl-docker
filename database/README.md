@@ -7,6 +7,23 @@ Create your local db directories
     mkdir -p /yourpath/mysql
     mkdir -p /yourpath/ftp
 
-Run the docker images which setup the first instance of MySQL
 
-    docker run -P --name mysql -v /mnt/cdata/db/ensembl/log:/var/log/mysql -v /mnt/cdata/db/ensembl/mysql:/var/lib/mysql -v /mnt/cdata/db/ensembl/ftp:/ftp -e 'DB_USER=mysqldba' -e 'DB_PASS=mysqldbapass' helios/mysql /bin/bash
+Build the docker
+================
+
+    git clone https://github.com/helios/ensembl-docker
+    cd ensembl-docker/database
+    docker build -t helios/ensembl-db .
+
+
+Run the docker
+==============
+
+Run the docker images which setup the first instance of MySQL.
+    
+
+    docker run -d --name ensembl-db -v /mnt/cdata/db/ensembl/log:/var/log/mysql -v /mnt/cdata/db/ensembl/mysql:/var/lib/mysql -v /mnt/cdata/db/ensembl/ftp:/ftp -e 'DB_REMOTE_ROOT_NAME=mysqldba' helios/ensembl-db
+
+Initialize a database with the desired specie release and genome version
+
+    docker run --rm --link=ensembl-db -v /mnt/cdata/db/ensembl/ftp:/ftp -ti helios/ensembl-db /sbin/download_ensembl.sh homo_sapiens 81 38

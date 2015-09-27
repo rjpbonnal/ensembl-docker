@@ -16,4 +16,7 @@ export PERL5LIB
 PATH=${PATH}:/opt/tabix/
 export PATH
 
+#sed -i.backup "s/  host = ensembldb.ensembl.org/  host = ensembl-db.bridge/" /opt/ensembl-rest/ensembl_rest.conf
+#sed -i.backup "s/  port = 5306/  host = 3306/" /opt/ensembl-rest/ensembl_rest.conf
+
 "$@"

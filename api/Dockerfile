@@ -39,9 +39,11 @@ RUN cd /opt &&\
 
 RUN apt-get install -y libcatalyst-perl liblog-log4perl-perl libcatalyst-action-rest-perl libcatalyst-modules-perl libchi-perl libxml-writer-perl
 
-ADD entrypoint.sh /usr/local/bin/
+COPY entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+COPY ensembl_rest.conf /opt/ensemb-rest/
 
 EXPOSE 3000
 

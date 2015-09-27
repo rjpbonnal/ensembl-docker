@@ -111,13 +111,13 @@ function clone_ensembl_db {
 
 # Required all R expect where specified
 for database in ensembl_ontology_${release} ensembl_website_${release} ensembl_accounts; do
-  clone_ensembl_db ${database} ${ENSEMBL_DB_PORT_3306_TCP_ADDR}
+  clone_ensembl_db ${database} ensembl-db
 done
 
 
 # By Specie
  for database in ${specie}_core_${release}_${subrelease} ${specie}_funcgen_${release}_${subrelease} ${specie}_otherfeatures_${release}_${subrelease} ${specie}_variation_${release}_${subrelease}; do
-  clone_ensembl_db ${database} ${ENSEMBL_DB_PORT_3306_TCP_ADDR}
+  clone_ensembl_db ${database} ensembl-db
  done
 
 

@@ -28,7 +28,7 @@ RUN chmod 755 /sbin/download_ensembl.sh
 
 COPY mysql-listen.cnf /etc/mysql/conf.d/
 
-EXPOSE 3306/tcp
+EXPOSE 5306/tcp
 VOLUME ["${MYSQL_DATA_DIR}", "${MYSQL_RUN_DIR}"]
 ENTRYPOINT ["/sbin/entrypoint.sh"]
 CMD ["/usr/bin/mysqld_safe"]

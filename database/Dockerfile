@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER sameer@damagehead.com
+MAINTAINER ilpuccio.febo@gmail.com
 
 ENV MYSQL_USER=mysql \
     MYSQL_DATA_DIR=/var/lib/mysql \

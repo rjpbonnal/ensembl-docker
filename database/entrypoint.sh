@@ -89,6 +89,9 @@ initialize_mysql_database() {
       -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'%' IDENTIFIED BY '' WITH GRANT OPTION; FLUSH PRIVILEGES;"
       #-e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'${DB_REMOTE_ROOT_HOST}' IDENTIFIED BY '${DB_REMOTE_ROOT_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;"
     fi
+    
+    echo "Creating anonymous user with read only privileges..."
+    mysql -uroot -e "GRANT SELECT ON *.* TO 'anonymous'@'%'; FLUSH PRIVILEGES;"
 
     /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
   fi

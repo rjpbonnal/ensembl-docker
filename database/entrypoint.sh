@@ -30,7 +30,7 @@ create_log_dir() {
 
 apply_configuration_fixes() {
   # disable error log
-  sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
+  #sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
   # Fixing StartUp Porblems with some DNS Situations and Speeds up the stuff
   # http://www.percona.com/blog/2008/05/31/dns-achilles-heel-mysql-installation/
@@ -134,6 +134,7 @@ listen_on_all_interfaces() {
   cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
 [mysqld]
 bind = 0.0.0.0
+port = 5306
 EOF
 }
 

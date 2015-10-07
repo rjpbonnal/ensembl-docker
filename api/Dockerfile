@@ -43,9 +43,9 @@ COPY entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-COPY ensembl_rest.conf /opt/ensemb-rest/
+COPY ensembl_rest.conf /opt/ensembl-rest/
 
 EXPOSE 3000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
+CMD ["/opt/ensembl-rest/script/ensembl_rest_server.pl"]

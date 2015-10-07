@@ -23,6 +23,4 @@ Run the docker images which setup the first instance of MySQL.
 
     docker run -p 5306:5306 -d --name ensembl-db -v /mnt/cdata/db/ensembl/log:/var/log/mysql -v /mnt/cdata/db/ensembl/mysql:/var/lib/mysql -v /mnt/cdata/db/ensembl/ftp:/ftp -e 'DB_REMOTE_ROOT_NAME=mysqldba' helios/ensembl-db
 
-Initialize a database with the desired specie release and genome version
-
-    docker run --rm --link=ensembl-db -v /mnt/cdata/db/ensembl/ftp:/ftp -ti helios/ensembl-db /sbin/download_ensembl.sh homo_sapiens 81 38
+To initialize a database with the desired specie release and genome version see the Docker `db_download`

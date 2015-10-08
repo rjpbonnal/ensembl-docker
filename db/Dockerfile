@@ -23,9 +23,6 @@ RUN chmod 755 /sbin/entrypoint.sh
 
 # USER bioinfo
 
-COPY download_ensembl.sh /sbin/
-RUN chmod 755 /sbin/download_ensembl.sh
-
 EXPOSE 5306/tcp
 VOLUME ["${MYSQL_DATA_DIR}", "${MYSQL_RUN_DIR}"]
 ENTRYPOINT ["/sbin/entrypoint.sh"]

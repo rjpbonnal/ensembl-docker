@@ -66,6 +66,7 @@ function clone_ensembl_db {
 
   local dbname=$1
   local dbhost=$2
+  local dbport=$3
   local status=0
   local sourcedir=/ftp
 
@@ -77,7 +78,7 @@ function clone_ensembl_db {
   fi 
 
   if [ ! -e ${sourcedir}/${dbname}.dbcreated ]; then
-      mysql -u mysqldba -h ${dbhost} \
+      mysql -u mysqldba -h ${dbhost} -P ${dbport}\
           -e "CREATE DATABASE IF NOT EXISTS \`${dbname}\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;" &&\
       touch ${sourcedir}/${dbname}.dbcreated
       if_something_goes_wrong $? "Database ${dbname} can not be created into MySQL."
@@ -86,7 +87,7 @@ function clone_ensembl_db {
   if [ ! -e ${sourcedir}/${dbname}.schemaloaded ]; then
       cd ${sourcedir}/${dbname} &&\
       gunzip ${dbname}.sql.gz &&\
-      mysql -h ${dbhost} -u mysqldba ${dbname} < ${dbname}.sql &&\
+      mysql -h ${dbhost} -P ${dbport} -u mysqldba ${dbname} < ${dbname}.sql &&\
       gzip ${dbname}.sql &&\
       touch ${sourcedir}/${dbname}.schemaloaded
       if_something_goes_wrong $? "Database ${dbname} schema can not be loaded into MySQL."
@@ -97,7 +98,7 @@ function clone_ensembl_db {
       if [ $? -eq 0 ]; then
         cd ${sourcedir}/${dbname} &&\
         gunzip *.txt.gz &&\
-        mysqlimport -h ${dbhost} -u mysqldba --fields_escaped_by=\\ ${dbname} -L *.txt &&\
+        mysqlimport -h ${dbhost} -P ${dbport} -u mysqldba --fields_escaped_by=\\ ${dbname} -L *.txt &&\
         gzip *.txt &&\
         touch ${sourcedir}/${dbname}.dbloaded
         if_something_goes_wrong $? "Database ${dbname} can not be loaded into MySQL."
@@ -111,13 +112,13 @@ function clone_ensembl_db {
 
 # Required all R expect where specified
 for database in ensembl_ontology_${release} ensembl_website_${release} ensembl_accounts; do
-  clone_ensembl_db ${database} ensembl-db
+  clone_ensembl_db ${database} ensembl-db 5306
 done
 
 
 # By Specie
  for database in ${specie}_core_${release}_${subrelease} ${specie}_funcgen_${release}_${subrelease} ${specie}_otherfeatures_${release}_${subrelease} ${specie}_variation_${release}_${subrelease}; do
-  clone_ensembl_db ${database} ensembl-db
+  clone_ensembl_db ${database} ensembl-db 5306
  done
 
 

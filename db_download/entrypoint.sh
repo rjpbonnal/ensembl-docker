@@ -70,7 +70,7 @@ function clone_ensembl_db {
   local sourcedir=/ftp
 
   if [ ! -e ${sourcedir}/${dbname}.downloaded ]; then
-    rsync -avP rsync://ftp.ensembl.org/ensembl/pub/current_mysql/${dbname} ${sourcedir}/ &&\
+    rsync -avP rsync://ftp.ensembl.org/ensembl/pub/release_${release}/mysql/${dbname} ${sourcedir}/ &&\
     touch ${sourcedir}/${dbname}.downloaded
 
     if_something_goes_wrong $? "Database ${dbname} can not be dowloaded correctly. Please check your internet connection, the name of the specie or the release number"
